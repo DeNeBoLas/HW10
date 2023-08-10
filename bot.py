@@ -1,31 +1,48 @@
 from collections import UserDict
 
 
-class Field:  # буде батьківським для всіх полів, у ньому потім реалізуємо логіку, загальну для всіх полів
-    pass
+class Field:
+    def __init__(self, value) -> None:
+        self.value = value
 
 
-class Name:  # обов'язкове поле з ім'ям
-    def __init__(self, name) -> None:
-        self.name = name
+class Name(Field):
+    def __init__(self, value) -> None:
+        super().__init__(value)
+        # self.name = name
 
     def add_name(self):
-        self.name = input("Enter your name: ")
+        return self.name
 
 
-s
-
-
-class AdressBook(UserDict):  # додамо логіку пошуку за записами
+class AdressBook(UserDict):
     def find_record(self, value):
         return self.data.get(value)
 
 
-class Record:  # відповідає за логіку додавання/видалення/редагування необов'язкових полів та зберігання обов'язкового поля Name
-    def add_record(self, record: Record):
+class Record:
+    def __init__(self, phone=None) -> None:
+        self.phones = [phone] if phone else []
+
+    def add_record(self, record):
         self.data[Record.name.value] = record
 
 
-class Phone:  # необов'язкове поле з телефоном та таких один запис (Record) може містити кілька
-    def __init__(self, number=None) -> None:
+class Phone(Field):
+    def __init__(self, value, number=None) -> None:
+        super().__init__(value)
         self.number = number
+
+
+if __name__ == "__main__":
+    name = Name("Bill")
+    phone = Phone("1234567890")
+    rec = Record(name, phone)
+    ab = AddressBook()
+    ab.add_record(rec)
+    assert isinstance(ab["Bill"], Record)
+    assert isinstance(ab["Bill"].name, Name)
+    assert isinstance(ab["Bill"].phones, list)
+    assert isinstance(ab["Bill"].phones[0], Phone)
+    assert ab["Bill"].phones[0].value == "1234567890"
+    print("All Ok)")
