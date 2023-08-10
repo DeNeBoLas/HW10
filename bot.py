@@ -15,17 +15,18 @@ class Name(Field):
         return self.name
 
 
-class AdressBook(UserDict):
+class AddressBook(UserDict):
     def find_record(self, value):
         return self.data.get(value)
 
+    def add_record(self, record):
+        self.data[record.name.value] = record
+
 
 class Record:
-    def __init__(self, phone=None) -> None:
+    def __init__(self, name, phone=None) -> None:
+        self.name = name
         self.phones = [phone] if phone else []
-
-    def add_record(self, record):
-        self.data[Record.name.value] = record
 
 
 class Phone(Field):
