@@ -9,17 +9,20 @@ class Name:  # обов'язкове поле з ім'ям
     def __init__(self, name) -> None:
         self.name = name
 
+    def add_name(self):
+        self.name = input("Enter your name: ")
+
 
 class AdressBook(UserDict):  # додамо логіку пошуку за записами
-    pass
+    def find_record(self, value):
+        return self.data.get(value)
 
-def add_record(self):
-    
 
 class Record:  # відповідає за логіку додавання/видалення/редагування необов'язкових полів та зберігання обов'язкового поля Name
-    pass
+    def add_record(self, record: Record):
+        self.data[Record.name.value] = record
 
 
 class Phone:  # необов'язкове поле з телефоном та таких один запис (Record) може містити кілька
-    def __init__(self, *args) -> None:
-        self.args = args
+    def __init__(self, number=None) -> None:
+        self.number = number
