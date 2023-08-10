@@ -13,6 +13,9 @@ class Name:  # обов'язкове поле з ім'ям
         self.name = input("Enter your name: ")
 
 
+s
+
+
 class AdressBook(UserDict):  # додамо логіку пошуку за записами
     def find_record(self, value):
         return self.data.get(value)
