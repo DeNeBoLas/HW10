@@ -9,10 +9,32 @@ class Field:
 class Name(Field):
     def __init__(self, value) -> None:
         super().__init__(value)
-        # self.name = name
 
-    def add_name(self):
-        return self.name
+
+class Phone(Field):
+    def __init__(
+        self,
+        value,
+    ) -> None:
+        super().__init__(value)
+
+
+class Record:
+    def __init__(self, name: str, phones=None) -> None:
+        self.name = name
+        self.phones = [phone] if phones else []
+
+    def add_phone(self, phone):
+        phone_number = Phone(phone)
+        if phone_number not in self.phones:
+            self.phones.append(phone_number)
+
+    def del_record(self, phone):
+        self.phones.remove(phone)
+
+    def edit_record(self, old_phone, new_phone):
+        index = self.phones.index(old_phone)
+        self.phones[index] = new_phone
 
 
 class AddressBook(UserDict):
@@ -21,18 +43,6 @@ class AddressBook(UserDict):
 
     def add_record(self, record):
         self.data[record.name.value] = record
-
-
-class Record:
-    def __init__(self, name, phone=None) -> None:
-        self.name = name
-        self.phones = [phone] if phone else []
-
-
-class Phone(Field):
-    def __init__(self, value, number=None) -> None:
-        super().__init__(value)
-        self.number = number
 
 
 if __name__ == "__main__":
