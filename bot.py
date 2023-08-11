@@ -42,6 +42,8 @@ class AddressBook(UserDict):
         return self.data.get(value)
 
     def add_record(self, record):
+        if not isinstance(rec, Record):
+            raise ValueError("Record must be an instance of the Record class")
         self.data[record.name.value] = record
 
 
