@@ -12,15 +12,22 @@ class Name(Field):
 
 
 class Phone(Field):
-    def __init__(
-        self,
-        value,
-    ) -> None:
+    def __init__(self, value) -> None:
         super().__init__(value)
 
 
+class AddressBook(UserDict):
+    def add_record(self, record):
+        if not isinstance(record, Record):
+            raise ValueError("Record must be an instance of the Record class")
+        self.data[record.name.value] = record
+
+    def find_record(self, value):
+        return self.data.get(value)
+
+
 class Record:
-    def __init__(self, name: str, phones=None) -> None:
+    def __init__(self, name: str, phones: list) -> None:
         self.name = name
         self.phones = [phone] if phones else []
 
@@ -29,22 +36,18 @@ class Record:
         if phone_number not in self.phones:
             self.phones.append(phone_number)
 
-    def del_record(self, phone):
-        self.phones.remove(phone)
+    def del_phone(self, phone):
+        if phone in self.phones:
+            self.phones.remove(phone)
 
-    def edit_record(self, old_phone, new_phone):
-        index = self.phones.index(old_phone)
-        self.phones[index] = new_phone
+    def edit_phone(self, phone, new_phone):
+        # index = self.phones.index(phone)
+        # self.phones[index] = new_phone
+        # list(map(lambda phone: self.phones.replace(phone, new_phone), self.phones))
+        [new_phone if item == phone else item for item in self.phones]
 
-
-class AddressBook(UserDict):
-    def find_record(self, value):
-        return self.data.get(value)
-
-    def add_record(self, record):
-        if not isinstance(rec, Record):
-            raise ValueError("Record must be an instance of the Record class")
-        self.data[record.name.value] = record
+    def __repr__(self):
+        return self.name, self.phones
 
 
 if __name__ == "__main__":
@@ -59,3 +62,18 @@ if __name__ == "__main__":
     assert isinstance(ab["Bill"].phones[0], Phone)
     assert ab["Bill"].phones[0].value == "1234567890"
     print("All Ok)")
+
+    name = Name("Kim")
+    phone = Phone("7386492")
+    rec1 = Record(name, phone)
+
+    rec1.add_phone("02384702")
+    rec1.add_phone("0238")
+    rec1.add_phone("02384")
+
+    rec1.del_phone("1234567890")
+
+    ab1 = AddressBook()
+    ab1.add_record(rec1)
+    ab1.find_record("0238")
+    rec1.edit_phone("0238", "098")
