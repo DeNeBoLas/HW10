@@ -47,7 +47,10 @@ class Record:
         [new_phone if item == phone else item for item in self.phones]
 
     def __repr__(self):
-        return self.name, self.phones
+        return f"Data: {self.name}, {self.phones}"
+
+    def __str__(self) -> str:
+        return f"Name is {self.name}"
 
 
 if __name__ == "__main__":
